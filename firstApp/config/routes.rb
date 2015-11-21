@@ -1,13 +1,13 @@
 Rails.application.routes.draw do
-  get 'todo/index'
 
-  get 'todo/show'
+  root 'todos#index'
+  resources :todos
 
-  get 'todo/new'
+  #get 'todos/show/:id'
 
-  get 'todo/edit'
+  #get '/todo/:id', to: 'todo#show'
 
-  get 'todo/delete'
+  #resources :todos
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
