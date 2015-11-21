@@ -1,0 +1,10 @@
+<h2>Todo Items</h2>
+<ul>
+	<% @todos.each do |todo| %>
+		<li>
+			<h4><%= todo.id %> - <%= todo.title %></h4>
+			<p><%= todo.content %></p>
+			<%= link_to 'detalhes', todo %>
+		</li>
+	<% end %>
+</ul>
