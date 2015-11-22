@@ -1,7 +1,7 @@
 <h2>Todo Items</h2>
+<%= link_to "Create new Task", new_todo_path %>
 <ul>
 	<% @todos.each do |todo| %>
-		<li>[<%= link_to todo.title, todo %>] <%= todo.content %></li>
+		<li>[<%= link_to todo.title, todo %>] <%= todo.content %> [<%= link_to "Delete", todo, method: :delete %>]</li>
 	<% end %>
 </ul>
-<%= link_to "Create new Task", new_todo_path %>

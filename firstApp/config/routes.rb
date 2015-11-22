@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
 
   root 'todos#index'
-  resources :todos
+  #resources :todos
+  resources :todos, only: [:new, :create, :destroy, :show, :index]
 
   #get 'todos/show/:id'
 
