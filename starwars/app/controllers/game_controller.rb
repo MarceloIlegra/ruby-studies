@@ -7,9 +7,8 @@ class GameController < ApplicationController
   	end
 
   	def getone
-  		load_registration_service
-  		
-  		render json: @game_service.get_by_id 2
+  		load_registration_service  		
+  		render json: @game_service.get_by_id(2)
   	end
 
 	def load_registration_service(service = GameService.new)

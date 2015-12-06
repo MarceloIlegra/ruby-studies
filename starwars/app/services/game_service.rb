@@ -19,18 +19,15 @@ class GameService
 
 	def get_all_by_list_id (list_id)
 		@all_characters = []
- 		#url = 'http://swapi.co/api/people/'
-		#list_id.each { |x| puts x }
+		list_id.each { |x| 
+			@all_characters.push(get_by_id(x))
+		}
  		return @all_characters		
 	end
 
 	def get_by_id (id)
-		#url = 'http://swapi.co/api/people/' << id.to_s
-		url = 'http://swapi.co/api/people/2'
- 		@response = HTTParty.get(url)
-
- 		return @response["results"]
- 		
+		url = 'http://swapi.co/api/people/' << id.to_s		
+  		return HTTParty.get(url) 		
 	end
 
 end
