@@ -1,19 +1,13 @@
+
 class GameController < ApplicationController
   
-  def index
-
-  	@all_characters = []
-  	url = 'http://swapi.co/api/people/'
-  	while true
-  		@response = HTTParty.get(url)
-  		@all_characters.concat(@response["results"])
-  		if @response["next"] != nil
-  			url = @response["next"]
-  		else
-  			break
-  		end
+  	def index
+  		load_registration_service
+  		render json: @game_service.get_all 	
   	end
-  	render json: @all_characters
-  end
+
+	def load_registration_service(service = GameService.new)
+		@game_service ||= service
+	end
 
 end
