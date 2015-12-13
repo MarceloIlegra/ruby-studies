@@ -2,7 +2,18 @@ class ApiStarWarsFacade
 
 	def get_by_id (id)
 		url = 'http://swapi.co/api/people/' << id.to_s		
-  		return HTTParty.get(url) 		
+		@result = HTTParty.get(url) 
+  		return map_to_person(@result, url)		
+	end
+
+	def map_to_person (result, url)
+		person = Person.new
+		person.url_people = url
+		person.name = @result['name']
+		person.url_specie = @result['species'][0]
+		person.is_clone = false
+		person.mass = @result['mass']
+		return person
 	end
 
 	def get_all
@@ -27,5 +38,8 @@ class ApiStarWarsFacade
 		}
  		return @all_characters		
 	end	
+
+
+
 
 end
