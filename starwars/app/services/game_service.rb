@@ -2,32 +2,32 @@ class GameService
 
 	public
 
-	def get_all
-		@all_characters = []
- 		url = 'http://swapi.co/api/people/'
- 		while true
- 			@response = HTTParty.get(url)
- 			@all_characters.concat(@response["results"])
- 			if @response["next"] != nil
- 				url = @response["next"]
- 			else
- 				break
- 			end
- 		end
- 		return @all_characters
-	end
-
-	def get_all_by_list_id (list_id)
-		@all_characters = []
-		list_id.each { |x| 
-			@all_characters.push(get_by_id(x))
+	def group_by_species (list_person)
+		@groups = []
+		list_person.each { |x|
+			specie = x["species"]			
+			if exists_specie(@groups, specie) == false
+				@group = Group.new(specie)
+				@group.add(x) 
+				@groups.push(@group)
+			else
+				@groups.each{ |y| 
+					if y.specie == specie
+						y.add(x)
+					end
+				}
+			end
 		}
- 		return @all_characters		
+		return @groups
 	end
 
-	def get_by_id (id)
-		url = 'http://swapi.co/api/people/' << id.to_s		
-  		return HTTParty.get(url) 		
+	def exists_specie(groups, specie)
+		groups.each{ |x| 
+			if x.specie == specie
+				return true
+			end
+		}
+		return false
 	end
 
 end
