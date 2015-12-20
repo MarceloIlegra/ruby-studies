@@ -2,6 +2,55 @@ require 'test_helper'
 
 class GameServiceTest < ActiveSupport::TestCase
 
+	test "organize_travel_success" do
+		load_registration_service
+
+		specie_a = Group.new("1")
+		person_1 = Person.new
+		person_1.name = "A"
+		person_1.birth_year = "19BBY"
+		specie_a.add(person_1)
+
+		person_2 = Person.new
+		person_2.name = "B"
+		person_2.birth_year = "30BBY"
+		specie_a.add(person_2)
+
+		person_3 = Person.new
+		person_3.name = "C"
+		person_3.birth_year = "12ABY"
+		specie_a.add(person_3)
+
+		person_4 = Person.new
+		person_4.name = "D"
+		person_4.birth_year = "35ABY"
+		specie_a.add(person_4)
+
+		specie_b = Group.new("b")
+
+		person_5 = Person.new
+		person_5.name = "E"
+		person_5.birth_year = "35ABY"
+		specie_b.add(person_5)	
+
+		person_6 = Person.new
+		person_6.name = "E"
+		person_6.birth_year = "77BBY"
+		specie_b.add(person_6)
+
+		travels = @game_service.organize_travel ([specie_a, specie_b])
+		
+		assert travels[0].name_specie.eql? "older_people"
+		assert travels[0].passengers[0].name.eql? "B"
+		assert travels[0].passengers[1].name.eql? "E"
+
+		assert travels[0].passengers.length == 2
+		assert travels[1].passengers.length == 3
+		assert travels[2].passengers.length == 1
+
+
+	end
+
 	test "get_older_people_each_specie_success" do
 		load_registration_service
 

@@ -14,9 +14,6 @@ class ApiStarWarsFacade
 		person.is_older = false
 		person.mass = @result['mass']
 		person.birth_year = @result['birth_year']
-		
-
-
 		return person
 	end
 
@@ -44,6 +41,16 @@ class ApiStarWarsFacade
 	end	
 
 
-
+	def get_vehicle_by(id)
+		url = 'http://swapi.co/api/vehicles/' << id.to_s
+		response = HTTParty.get(url)
+		vehicle = Vehicle.new
+		vehicle.name = response.name
+		vehicle.limit = response.passengers
+	end
 
 end
+
+
+
+

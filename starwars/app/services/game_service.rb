@@ -2,6 +2,27 @@ class GameService
 
 	public
 
+	def organize_travel(list_groups_species)
+
+		# array.delete_if { |v| v.should_be_deleted? }`
+
+		list_groups_species = mark_the_older_people_each_specie(list_groups_species)
+		travels = []
+		#getting only older people
+		travel = Travel.new("older_people")
+		list_groups_species.each{|x|
+			
+			x.person.each{|y|
+				if y.is_older
+					travel.add(y)
+				end
+			}
+			travels.push(travel)
+		}
+		return travels
+	end
+
+
 	def mark_the_older_people_each_specie(list_groups_species)
 		list_groups_species.each{ |x| 
 			position_older = 0
