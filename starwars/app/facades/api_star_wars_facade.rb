@@ -11,8 +11,12 @@ class ApiStarWarsFacade
 		person.url_people = url
 		person.name = @result['name']
 		person.url_specie = @result['species'][0]
-		person.is_clone = false
+		person.is_older = false
 		person.mass = @result['mass']
+		person.birth_year = @result['birth_year']
+		
+
+
 		return person
 	end
 

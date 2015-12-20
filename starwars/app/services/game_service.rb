@@ -2,9 +2,49 @@ class GameService
 
 	public
 
+	def mark_the_older_people_each_specie(list_groups_species)
+		list_groups_species.each{ |x| 
+			position_older = 0
+			last_birthday = nil
+			x.person.each_with_index {|item, index|
+				if is_older(item.birth_year, last_birthday)
+					position_older = index
+					last_birthday = item.birth_year
+				end	
+			}
+			x.person[position_older].is_older = true
+		}
+		return list_groups_species
+	end
+
+	def is_older(first_birth_year, second_birth_year)
+
+		if first_birth_year == nil
+			return false
+		end
+
+		if second_birth_year ==  nil
+			return true
+		end
+
+		year_1 = first_birth_year.gsub( /.{3}$/, '' )
+		era_1 = first_birth_year.last(3)
+
+		year_2 = second_birth_year.gsub( /.{3}$/, '' )
+		era_2 = second_birth_year.last(3)
+
+		if era_1.eql? era_2
+			return year_1 > year_2
+		else
+			return era_1.eql? "BBY"
+		end
+
+		return false
+	end
+
 	def group_by_species (list_person)
 		@groups = []
-		list_with_person = list_person #discovery_clone (list_person)
+		list_with_person = list_person
 		list_person.each { |x|
 			specie = x.url_specie			
 			if exists_specie(@groups, specie) == false
@@ -30,28 +70,6 @@ class GameService
 		}
 		return false
 	end
-
-	def discovery_clone (list_characters)
-		people = []
-		list_with_clone = []
-		list_characters.each{ |x|
-			if people.index(x.url_people) != nil
-				puts "encontrei"
-			end 			
-			x.is_clone = true
-			people.push(x)
-			list_with_clone.push(x)
-		}
-		list_with_clone.each{ |x| 
-			if x.is_clone 
-				puts "clone"
-			else
-				puts "nao eh clone"
-			end
-		}
-		return list_with_clone
-	end
-
 
 end
 
