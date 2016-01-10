@@ -8,8 +8,9 @@ class GameController < ApplicationController
   	end
 
   	def getone
-  		load_registration_service  		
-      @people = @factory.get_all_by_list_id([1,2,3])
+  		load_registration_service 
+      ids = params[:id].split("-") 		
+      @people = @factory.get_all_by_list_id(ids)
   		render json: @game_service.process_travel(@people)
   	end
 
