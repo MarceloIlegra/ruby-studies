@@ -9,21 +9,49 @@ class GameService
 
 	def organize_travel(list_groups_species)
 
-		# array.delete_if { |v| v.should_be_deleted? }`
-
 		list_groups_species = mark_the_older_people_each_specie(list_groups_species)
+
 		travels = []
-		#getting only older people
+		limit = 4
 		travel = Travel.new("older_people")
 		list_groups_species.each{|x|
-			
 			x.person.each{|y|
 				if y.is_older
-					travel.add(y)
+					if travel.has_place(y)
+						travel.add(y)
+					else
+						travels.push(travel)
+						travel = Travel.new("older_people")
+						travel.add(y)				
+					end
+				end
+			}			
+		}
+		travels.push(travel)
+
+		travel = nil
+		list_groups_species.each{|x|
+			x.person.each{|y|
+				if y.is_older == false
+					if travel == nil
+						travel = Travel.new(x.specie)
+					end
+
+					if travel.has_place(y)
+						travel.add(y)
+					else
+						travels.push(travel)
+						travel = Travel.new("older_people")
+						travel.add(y)				
+					end
 				end
 			}
 			travels.push(travel)
+			travel = nil			
 		}
+		if travel != nil
+			travels.push(travel)
+		end
 		return travels
 	end
 

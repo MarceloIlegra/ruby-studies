@@ -9,21 +9,25 @@ class GameServiceTest < ActiveSupport::TestCase
 		person_1 = Person.new
 		person_1.name = "A"
 		person_1.birth_year = "19BBY"
+		person_1.mass="77"
 		specie_a.add(person_1)
 
 		person_2 = Person.new
 		person_2.name = "B"
 		person_2.birth_year = "30BBY"
+		person_2.mass="120"
 		specie_a.add(person_2)
 
 		person_3 = Person.new
 		person_3.name = "C"
 		person_3.birth_year = "12ABY"
+		person_3.mass="100"
 		specie_a.add(person_3)
 
 		person_4 = Person.new
 		person_4.name = "D"
 		person_4.birth_year = "35ABY"
+		person_4.mass="100"
 		specie_a.add(person_4)
 
 		specie_b = Group.new("b")
@@ -31,23 +35,42 @@ class GameServiceTest < ActiveSupport::TestCase
 		person_5 = Person.new
 		person_5.name = "E"
 		person_5.birth_year = "35ABY"
+		person_5.mass="150"
 		specie_b.add(person_5)	
 
 		person_6 = Person.new
 		person_6.name = "E"
 		person_6.birth_year = "77BBY"
-		specie_b.add(person_6)
+		person_6.mass="180"
+		specie_b.add(person_6)		
 
-		travels = @game_service.organize_travel ([specie_a, specie_b])
+
+		specie_c = Group.new("c")
+
+		person_6 = Person.new
+		person_6.name = "F"
+		person_6.birth_year = "10ABY"
+		person_6.mass="150"
+		specie_b.add(person_6)	
+
+		person_7 = Person.new
+		person_7.name = "G"
+		person_7.birth_year = "77BBY"
+		person_7.mass="100"
+		specie_c.add(person_7)
+
+		travels = @game_service.organize_travel ([specie_a, specie_b, specie_c])
 		
 		assert travels[0].name_specie.eql? "older_people"
 		assert travels[0].passengers[0].name.eql? "B"
 		assert travels[0].passengers[1].name.eql? "E"
-
 		assert travels[0].passengers.length == 2
-		#assert travels[1].passengers.length == 3
-		#assert travels[2].passengers.length == 1
+		
+		assert travels[1].name_specie.eql? "older_people"
+		assert travels[1].passengers.length == 1
+		assert travels[1].passengers[0].name.eql? "G"
 
+		assert travels.length == 5
 
 	end
 
