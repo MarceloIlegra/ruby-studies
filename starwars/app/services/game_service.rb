@@ -2,6 +2,11 @@ class GameService
 
 	public
 
+	def  process_travel(list_person)
+		species = group_by_species(list_person)
+		return organize_travel(species)
+	end
+
 	def organize_travel(list_groups_species)
 
 		# array.delete_if { |v| v.should_be_deleted? }`
@@ -55,7 +60,12 @@ class GameService
 		era_2 = second_birth_year.last(3)
 
 		if era_1.eql? era_2
-			return year_1 > year_2
+
+			if era_1.eql? "ABY"
+				return year_1 <= year_2
+			end
+
+			return year_1 >= year_2
 		else
 			return era_1.eql? "BBY"
 		end
